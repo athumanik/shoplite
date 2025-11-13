@@ -61,4 +61,18 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function getRoleTitleAttribute()
+    {
+        // Get the first assigned role name or return "No Role"
+        return $this->roles->pluck('name')->first() ?? 'No Role';
+    }
+
+    public function getInitialsAttribute()
+    {
+        return collect(explode(' ', $this->name))
+            ->map(fn($segment) => strtoupper(substr($segment, 0, 1)))
+            ->take(2)
+            ->join('');
+    }
 }

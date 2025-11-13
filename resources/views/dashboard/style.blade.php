@@ -255,6 +255,10 @@
          background: linear-gradient(135deg, var(--accent-yellow) 0%, #fdd663 100%);
      }
 
+     .stat-card.purple {
+         background: linear-gradient(135deg, var(--accent-purple) 0%, #d1a6ff 100%);
+     }
+
      .stat-card.white {
          background: linear-gradient(135deg, var(--white) 0%, #f1f3f4 100%);
          color: var(--dark-blue);

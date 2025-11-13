@@ -125,6 +125,24 @@
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
+            <a href="{{ route('pos.index') }}" target="_blank" rel="noopener noreferrer"
+                class="sidebar-item {{ request()->routeIs('pos.index') ? 'active' : '' }}">
+                <i class="fas fa-shopping-cart text-yellow-500"></i>
+                <span>POS</span>
+            </a>
+
+            <a href="{{ route('sales.index') }}"
+                class="sidebar-item {{ request()->routeIs('sales.index') ? 'active' : '' }}">
+                <i class="fas fa-box-open text-green-400"></i>
+                <span>Sales</span>
+            </a>
+
+
+            <a href="{{ route('inventory.index') }}"
+                class="sidebar-item {{ request()->routeIs('inventory.index') ? 'active' : '' }}">
+                <i class="fas fa-warehouse "></i>
+                <span>Inventory</span>
+            </a>
 
 
         </div>
