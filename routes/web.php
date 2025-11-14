@@ -48,7 +48,7 @@ Route::resource('pos', PosController::class)
         // 'destroy' => 'pos.destroy'
     ]);
 
-Route::get('/pos-guest', [PosController::class, 'guest'])->name(name: 'pos.guest');
+Route::get('pos-guest', [PosController::class, 'guest'])->name(name: 'pos.guest');
 
 
 Route::resource('sales', SalesController::class)

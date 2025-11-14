@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/scratch
 .env
 .env.backup
 .env.production
@@ -16,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+tables.txt
+products.py
+agrovet.xlsx

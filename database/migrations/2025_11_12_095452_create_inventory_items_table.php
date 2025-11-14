@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('inventory_id')->constrained('inventories')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->string('sku');
+            $table->string('sku')->nullable();
             $table->integer('quantity')->default(1);
             $table->decimal('unit_amount', 10, 0)->nullable();
             $table->decimal('total_amount', 10, 0)->nullable();

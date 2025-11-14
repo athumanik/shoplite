@@ -125,8 +125,8 @@
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="{{ route('pos.index') }}" target="_blank" rel="noopener noreferrer"
-                class="sidebar-item {{ request()->routeIs('pos.index') ? 'active' : '' }}">
+            <a href="{{ route('pos.guest') }}" target="_blank" rel="noopener noreferrer"
+                class="sidebar-item {{ request()->routeIs('pos.guest') ? 'active' : '' }}">
                 <i class="fas fa-shopping-cart text-yellow-500"></i>
                 <span>POS</span>
             </a>

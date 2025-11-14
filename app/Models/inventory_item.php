@@ -12,6 +12,7 @@ class inventory_item extends Model
      protected $fillable = [
         'inventory_id',
         'product_id',
+        'sku',
         'quantity',
         'unit_amount',
         'total_amount',

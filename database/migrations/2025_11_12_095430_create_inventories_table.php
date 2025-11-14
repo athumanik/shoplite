@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->decimal('grand_total', 10, 0)->nullable();
             $table->string('payment_method')->default('Cash');
             $table->string('status')->default('paid');
+            $table->text('batch_no')->nullable();
             $table->text('receipt')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
