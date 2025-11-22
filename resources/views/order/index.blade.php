@@ -1,12 +1,10 @@
-{{-- <x-dashboard-layout> --}}
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory - Shoplite Agrovet</title>
+    <title>Orders - Shoplite Agrovet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -70,6 +68,19 @@
                 background-position: -200% 0;
             }
         }
+
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 
@@ -106,31 +117,29 @@
                     <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
                     <span class="font-medium">WholeSales</span>
                 </a>
+                <a href="{{ route('orders') }}"
+                    class="flex items-center px-3 py-2 text-gray-700 bg-green-50 rounded-lg border border-green-200">
+                    <i class="fas fa-clipboard-list w-5 h-5 mr-3 text-green-600"></i>
+                    <span class="font-medium">Orders</span>
+                </a>
                 <a href="{{ route('products') }}"
                     class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                     <i class="fas fa-cube w-5 h-5 mr-3"></i>
                     <span>Products</span>
                 </a>
                 <a href="{{ route('inventory.index') }}"
-                    class="flex items-center px-3 py-2 text-gray-700 bg-green-50 rounded-lg border border-green-200">
-                    <i class="fas fa-boxes w-5 h-5 mr-3 text-green-600"></i>
-                    <span class="font-medium">Inventory</span>
+                    class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i class="fas fa-boxes w-5 h-5 mr-3"></i>
+                    <span>Inventory</span>
                 </a>
-
-                <a href="{{ route('orders') }}"
-                    class="flex items-center px-3 py-2 text-gray-700 bg-green-50 rounded-lg ">
-                    <i class="fas fa-clipboard-list w-5 h-5 mr-3 text-green-600"></i>
-                    <span class="font-medium">Orders</span>
-                </a>
-                <a href="#" class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                    <i class="fas fa-users w-5 h-5 mr-3"></i>
-                    <span>Customers</span>
-                </a>
-                <a href="{{ route('report') }}" class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                <a href="{{ route('report') }}"
+                    class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                     <i class="fas fa-chart-bar w-5 h-5 mr-3"></i>
                     <span>Reports</span>
+
                 </a>
-                <a href="{{ route('expense') }}"
+
+            <a href="{{ route('expense') }}"
                     class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                     <i class="fas fa-money-bill-wave w-5 h-5 mr-3 "></i>
                     <span class="font-medium sidebar-text">Expenses</span>
@@ -157,9 +166,9 @@
             <header class="bg-white border-b border-gray-200">
                 <div class="flex items-center justify-between px-6 py-4">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900" id="page-title">Inventory</h1>
-                        <p class="text-sm text-gray-600 mt-1" id="page-description">Manage your stock purchases and
-                            suppliers</p>
+                        <h1 class="text-2xl font-bold text-gray-900" id="page-title">Orders</h1>
+                        <p class="text-sm text-gray-600 mt-1" id="page-description">Manage customer orders and pre-sales
+                        </p>
                     </div>
                     <div class="flex items-center space-x-3">
                         <button
@@ -170,9 +179,9 @@
                         </button>
                         <button
                             class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center"
-                            id="create-inventory-btn">
+                            id="create-order-btn">
                             <i class="fas fa-plus mr-2"></i>
-                            New Purchase
+                            New Order
                         </button>
                     </div>
                 </div>
@@ -180,71 +189,71 @@
 
             <!-- Content Area -->
             <div class="flex-1 overflow-auto">
-                <!-- Inventory List View -->
+                <!-- Orders List View -->
                 <div id="list-view" class="p-6">
                     <!-- Stats Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
                         <div class="bg-white rounded-lg border border-gray-200 p-6 fade-in">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-sm font-medium text-gray-600">Total Purchases</p>
-                                    <p class="text-2xl font-bold text-gray-900 mt-1" id="total-purchases">--</p>
+                                    <p class="text-sm font-medium text-gray-600">Total Orders</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1" id="total-orders">--</p>
                                 </div>
                                 <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-boxes text-green-600 text-xl"></i>
+                                    <i class="fas fa-clipboard-list text-green-600 text-xl"></i>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-600 mt-2">This month</p>
+                            <p class="text-xs text-gray-600 mt-2">All time orders</p>
                         </div>
 
                         <div class="bg-white rounded-lg border border-gray-200 p-6 fade-in">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-sm font-medium text-gray-600">Total Spent</p>
-                                    <p class="text-2xl font-bold text-gray-900 mt-1" id="total-spent">--</p>
-                                </div>
-                                <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-dollar-sign text-blue-600 text-xl"></i>
-                                </div>
-                            </div>
-                            <p class="text-xs text-gray-600 mt-2">Purchase value</p>
-                        </div>
-
-                        <div class="bg-white rounded-lg border border-gray-200 p-6 fade-in">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-600">Pending Payments</p>
-                                    <p class="text-2xl font-bold text-gray-900 mt-1" id="pending-payments">--</p>
+                                    <p class="text-sm font-medium text-gray-600">Pending Orders</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1" id="pending-orders">--</p>
                                 </div>
                                 <div class="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                                     <i class="fas fa-clock text-yellow-600 text-xl"></i>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-600 mt-2">Awaiting payment</p>
+                            <p class="text-xs text-gray-600 mt-2">Awaiting completion</p>
                         </div>
 
                         <div class="bg-white rounded-lg border border-gray-200 p-6 fade-in">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-sm font-medium text-gray-600">Top Supplier</p>
-                                    <p class="text-2xl font-bold text-gray-900 mt-1" id="top-supplier">--</p>
+                                    <p class="text-sm font-medium text-gray-600">Completed Today</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1" id="completed-today">--</p>
                                 </div>
-                                <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-truck text-purple-600 text-xl"></i>
+                                <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-blue-600 text-xl"></i>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-600 mt-2">Most purchases</p>
+                            <p class="text-xs text-gray-600 mt-2">Converted to sales</p>
+                        </div>
+
+                        <div class="bg-white rounded-lg border border-gray-200 p-6 fade-in">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Order Value</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1" id="order-value">--</p>
+                                </div>
+                                <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-dollar-sign text-purple-600 text-xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-2">Total pending value</p>
                         </div>
                     </div>
 
-                    <!-- Inventory Table -->
+                    <!-- Orders Table -->
                     <div class="bg-white rounded-lg border border-gray-200 overflow-hidden fade-in">
                         <!-- Table Header -->
                         <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                            <h3 class="text-lg font-medium text-gray-900">Purchase History</h3>
+                            <h3 class="text-lg font-medium text-gray-900">Customer Orders</h3>
                             <div class="flex items-center space-x-3">
                                 <div class="relative">
-                                    <input type="text" id="search-input" placeholder="Search purchases..."
+                                    <input type="text" id="search-input" placeholder="Search orders..."
                                         class="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
                                     <i
                                         class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
@@ -270,15 +279,15 @@
 
                         <!-- Table -->
                         <div class="overflow-x-auto">
-                            <table class="w-full" id="inventory-table" style="display: none;">
+                            <table class="w-full" id="orders-table" style="display: none;">
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Purchase ID</th>
+                                            Order ID</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Supplier</th>
+                                            Customer</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Date</th>
@@ -293,26 +302,26 @@
                                             Status</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Items</th>
+                                            Progress</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200" id="inventory-table-body">
-                                    <!-- Inventory data will be loaded here -->
+                                <tbody class="bg-white divide-y divide-gray-200" id="orders-table-body">
+                                    <!-- Orders data will be loaded here -->
                                 </tbody>
                             </table>
                         </div>
 
                         <!-- Empty State -->
                         <div id="empty-state" class="hidden p-12 text-center">
-                            <i class="fas fa-boxes text-4xl text-gray-300 mb-4"></i>
-                            <h3 class="text-lg font-medium text-gray-900 mb-2">No inventory purchases found</h3>
-                            <p class="text-gray-500 mb-4">Get started by creating your first inventory purchase.</p>
+                            <i class="fas fa-clipboard-list text-4xl text-gray-300 mb-4"></i>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">No orders found</h3>
+                            <p class="text-gray-500 mb-4">Get started by creating your first customer order.</p>
                             <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                                id="create-first-inventory">
-                                Create Purchase
+                                id="create-first-order">
+                                Create Order
                             </button>
                         </div>
 
@@ -336,15 +345,15 @@
                     </div>
                 </div>
 
-                <!-- Create/Edit Inventory Form -->
+                <!-- Create/Edit Order Form -->
                 <div id="form-view" class="hidden p-6">
                     <div class="max-w-6xl mx-auto">
                         <div class="form-card bg-white rounded-lg border border-gray-200 fade-in">
                             <!-- Form Header -->
                             <div class="px-6 py-4 border-b border-gray-200">
                                 <div class="flex items-center justify-between">
-                                    <h3 class="text-lg font-medium text-gray-900" id="form-title">New Inventory
-                                        Purchase</h3>
+                                    <h3 class="text-lg font-medium text-gray-900" id="form-title">New Customer Order
+                                    </h3>
                                     <button class="text-gray-400 hover:text-gray-600" id="back-to-list">
                                         <i class="fas fa-times"></i>
                                     </button>
@@ -353,15 +362,15 @@
 
                             <!-- Form Content -->
                             <div class="p-6">
-                                <form id="inventory-form">
-                                    <!-- Supplier & Payment Info -->
+                                <form id="order-form">
+                                    <!-- Customer & Payment Info -->
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                         <div>
-                                            <label for="supplier"
-                                                class="block text-sm font-medium text-gray-700 mb-2">Supplier *</label>
-                                            <input type="text" id="supplier" name="supplier" required
+                                            <label for="customer"
+                                                class="block text-sm font-medium text-gray-700 mb-2">Customer *</label>
+                                            <input type="text" id="customer" name="customer" required
                                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                                placeholder="Enter supplier name" value="WholeSaler">
+                                                placeholder="Enter customer name" value="Regular">
                                         </div>
                                         <div>
                                             <label for="payment_method"
@@ -369,19 +378,19 @@
                                                 *</label>
                                             <select id="payment_method" name="payment_method" required
                                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                                <option value="Cash">Cash</option>
-                                                <option value="Bank Transfer">Bank Transfer</option>
-                                                <option value="Cheque">Cheque</option>
-                                                <option value="Credit">Supplier Credit</option>
+                                                <option value="cash">Cash</option>
+                                                <option value="card">Card</option>
+                                                <option value="mobile">Mobile Money</option>
+                                                <option value="credit">Credit</option>
+                                                <option value="partial">Partial Payment</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <!-- Purchase Items -->
+                                    <!-- Order Items -->
                                     <div class="mb-6">
                                         <div class="flex items-center justify-between mb-4">
-                                            <label class="block text-sm font-medium text-gray-700">Purchase
-                                                Items</label>
+                                            <label class="block text-sm font-medium text-gray-700">Order Items</label>
                                             <button type="button" id="add-item-btn"
                                                 class="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700">
                                                 <i class="fas fa-plus mr-1"></i>Add Item
@@ -397,9 +406,6 @@
                                                             Product</th>
                                                         <th
                                                             class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                                            SKU</th>
-                                                        <th
-                                                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                                             Quantity</th>
                                                         <th
                                                             class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
@@ -412,13 +418,12 @@
                                                             Actions</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="inventory-items-container"
-                                                    class="divide-y divide-gray-200">
-                                                    <!-- Inventory items will be added here -->
+                                                <tbody id="order-items-container" class="divide-y divide-gray-200">
+                                                    <!-- Order items will be added here -->
                                                 </tbody>
                                                 <tfoot class="bg-gray-50">
                                                     <tr>
-                                                        <td colspan="4"
+                                                        <td colspan="3"
                                                             class="px-4 py-3 text-right text-sm font-medium text-gray-700">
                                                             Subtotal</td>
                                                         <td class="px-4 py-3 text-sm font-medium text-gray-900"
@@ -426,15 +431,15 @@
                                                         <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="4"
+                                                        <td colspan="3"
                                                             class="px-4 py-3 text-right text-sm font-medium text-gray-700">
-                                                            Tax (if any)</td>
+                                                            Tax (8%)</td>
                                                         <td class="px-4 py-3 text-sm font-medium text-gray-900"
                                                             id="tax-display">$0.00</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="4"
+                                                        <td colspan="3"
                                                             class="px-4 py-3 text-right text-sm font-medium text-gray-700">
                                                             Grand Total</td>
                                                         <td class="px-4 py-3 text-lg font-bold text-green-600"
@@ -446,8 +451,54 @@
                                         </div>
                                     </div>
 
+                                    <!-- Payment Progress (for edit mode) -->
+                                    <div id="payment-progress-section" class="mb-6 hidden">
+                                        <h4 class="text-md font-medium text-gray-900 mb-4">Payment Progress</h4>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <div class="flex justify-between text-sm mb-2">
+                                                <span>Amount Paid</span>
+                                                <span id="amount-paid-display">$0.00</span>
+                                            </div>
+                                            <div class="progress-bar mb-2">
+                                                <div id="progress-fill" class="progress-fill bg-green-600"
+                                                    style="width: 0%"></div>
+                                            </div>
+                                            <div class="flex justify-between text-sm text-gray-600">
+                                                <span id="progress-text">0% Complete</span>
+                                                <span id="remaining-amount">$0.00 remaining</span>
+                                            </div>
+                                            <div class="mt-4">
+                                                <label for="additional-payment"
+                                                    class="block text-sm font-medium text-gray-700 mb-2">Add
+                                                    Payment</label>
+                                                <div class="flex space-x-3">
+                                                    <input type="number" id="additional-payment" step="0.01"
+                                                        min="0"
+                                                        class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                                        placeholder="Enter amount">
+                                                    <button type="button" id="add-payment-btn"
+                                                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                                        Add Payment
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- Additional Information -->
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                        <div>
+                                            <label for="status"
+                                                class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                            <select id="status" name="status"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                <option value="pending">Pending</option>
+                                                <option value="confirmed">Confirmed</option>
+                                                <option value="processing">Processing</option>
+                                                <option value="completed">Completed</option>
+                                                <option value="cancelled">Cancelled</option>
+                                            </select>
+                                        </div>
                                         <div>
                                             <label for="receipt"
                                                 class="block text-sm font-medium text-gray-700 mb-2">Receipt
@@ -455,16 +506,6 @@
                                             <input type="text" id="receipt" name="receipt"
                                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                                 placeholder="Enter receipt number">
-                                        </div>
-                                        <div>
-                                            <label for="status"
-                                                class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                                            <select id="status" name="status"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                                <option value="paid">Paid</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="cancelled">Cancelled</option>
-                                            </select>
                                         </div>
                                     </div>
 
@@ -474,7 +515,7 @@
                                             class="block text-sm font-medium text-gray-700 mb-2">Notes</label>
                                         <textarea id="notes" name="notes" rows="3"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                            placeholder="Add any notes about this purchase..."></textarea>
+                                            placeholder="Add any notes about this order..."></textarea>
                                     </div>
 
                                     <!-- Form Actions -->
@@ -483,9 +524,13 @@
                                             class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
                                             Cancel
                                         </button>
+                                        <button type="button" id="complete-sale-btn"
+                                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hidden">
+                                            <i class="fas fa-check mr-2"></i>Complete to Sale
+                                        </button>
                                         <button type="submit"
                                             class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                                            Save Purchase
+                                            Save Order
                                         </button>
                                     </div>
                                 </form>
@@ -498,31 +543,35 @@
     </div>
 
     <script>
-        class InventoryResource {
+        class OrdersResource {
             constructor() {
                 this.currentView = 'list';
-                this.inventories = [];
+                this.orders = [];
                 this.products = [];
                 this.currentPage = 1;
                 this.totalPages = 1;
                 this.searchTerm = '';
                 this.isLoading = false;
+                this.currentOrderId = null;
+                this.amountPaid = 0;
 
                 this.initializeEventListeners();
-                this.loadInventories();
+                this.loadOrders();
                 this.loadProducts();
             }
 
             initializeEventListeners() {
                 // Navigation
-                document.getElementById('create-inventory-btn').addEventListener('click', () => this.showFormView());
-                document.getElementById('create-first-inventory').addEventListener('click', () => this.showFormView());
+                document.getElementById('create-order-btn').addEventListener('click', () => this.showFormView());
+                document.getElementById('create-first-order').addEventListener('click', () => this.showFormView());
                 document.getElementById('back-to-list').addEventListener('click', () => this.showListView());
                 document.getElementById('cancel-form').addEventListener('click', () => this.showListView());
 
                 // Form
-                document.getElementById('inventory-form').addEventListener('submit', (e) => this.handleFormSubmit(e));
-                document.getElementById('add-item-btn').addEventListener('click', () => this.addInventoryItem());
+                document.getElementById('order-form').addEventListener('submit', (e) => this.handleFormSubmit(e));
+                document.getElementById('add-item-btn').addEventListener('click', () => this.addOrderItem());
+                document.getElementById('add-payment-btn').addEventListener('click', () => this.addPayment());
+                document.getElementById('complete-sale-btn').addEventListener('click', () => this.completeToSale());
 
                 // Search and Pagination
                 document.getElementById('search-input').addEventListener('input',
@@ -532,13 +581,12 @@
                 document.getElementById('next-page').addEventListener('click', () => this.nextPage());
 
                 // Export
-                document.getElementById('export-btn').addEventListener('click', () => this.exportInventories());
+                document.getElementById('export-btn').addEventListener('click', () => this.exportOrders());
 
-                // Inventory items event delegation
-                document.getElementById('inventory-items-container').addEventListener('input', (e) => this
-                .updateTotals());
-                document.getElementById('inventory-items-container').addEventListener('click', (e) => this
-                    .handleItemAction(e));
+                // Order items event delegation
+                document.getElementById('order-items-container').addEventListener('input', (e) => this.updateTotals());
+                document.getElementById('order-items-container').addEventListener('click', (e) => this.handleItemAction(
+                    e));
             }
 
             debounce(func, wait) {
@@ -553,24 +601,24 @@
                 };
             }
 
-            async loadInventories(page = 1) {
+            async loadOrders(page = 1) {
                 this.isLoading = true;
                 this.showLoadingState();
 
                 try {
-                    // Simulate API call - replace with actual fetch("/api/inventories")
+                    // Simulate API call - replace with actual fetch("/api/orders")
                     const response = await this.mockApiCall(page);
 
-                    this.inventories = response.data;
+                    this.orders = response.data;
                     this.currentPage = response.current_page;
                     this.totalPages = response.last_page;
 
-                    this.renderInventoriesList();
+                    this.renderOrdersList();
                     this.updateStats(response.stats);
                     this.updatePagination();
 
                 } catch (error) {
-                    console.error('Error loading inventories:', error);
+                    console.error('Error loading orders:', error);
                     this.showErrorState();
                 } finally {
                     this.isLoading = false;
@@ -582,42 +630,42 @@
                 this.products = [{
                         id: 1,
                         name: 'Livestock Vaccine',
-                        sku: 'LV-001'
+                        price: 24.99
                     },
                     {
                         id: 2,
                         name: 'Organic Fertilizer',
-                        sku: 'OF-002'
+                        price: 19.99
                     },
                     {
                         id: 3,
                         name: 'Premium Animal Feed',
-                        sku: 'PAF-003'
+                        price: 34.99
                     },
                     {
                         id: 4,
                         name: 'Farm Sprayer',
-                        sku: 'FS-004'
+                        price: 89.99
                     },
                     {
                         id: 5,
                         name: 'Antibiotics',
-                        sku: 'AB-005'
+                        price: 15.99
                     },
                     {
                         id: 6,
                         name: 'Herbicide',
-                        sku: 'HB-006'
+                        price: 22.50
                     },
                     {
                         id: 7,
                         name: 'Vitamin Supplements',
-                        sku: 'VS-007'
+                        price: 12.75
                     },
                     {
                         id: 8,
                         name: 'Water Pump',
-                        sku: 'WP-008'
+                        price: 45.00
                     }
                 ];
             }
@@ -627,51 +675,56 @@
                 await new Promise(resolve => setTimeout(resolve, 800));
 
                 // Mock data that matches your schema
-                const mockInventories = Array.from({
+                const mockOrders = Array.from({
                     length: 10
                 }, (_, index) => {
                     const id = (page - 1) * 10 + index + 1;
-                    const suppliers = ['AgroSupply Ltd', 'FarmTech Distributors', 'WholeSaler Co',
-                        'Green Valley Suppliers'
+                    const customers = ['John Farmer', 'Green Valley Farm', 'Maria Sanchez', 'Robert Kimani',
+                        'Regular'
                     ];
-                    const supplier = suppliers[Math.floor(Math.random() * suppliers.length)];
-                    const total = (Math.random() * 2000 + 200).toFixed(2);
+                    const customer = customers[Math.floor(Math.random() * customers.length)];
+                    const total = (Math.random() * 500 + 50).toFixed(2);
+                    const statuses = ['pending', 'confirmed', 'processing', 'completed', 'cancelled'];
+                    const status = statuses[Math.floor(Math.random() * statuses.length)];
+                    const amountPaid = status === 'completed' ? total : (Math.random() * parseFloat(total))
+                        .toFixed(2);
 
                     return {
                         id: id,
-                        supplier: supplier,
+                        customer: customer,
                         grand_total: total,
-                        payment_method: ['Cash', 'Bank Transfer', 'Cheque', 'Credit'][Math.floor(Math.random() *
-                            4)],
-                        status: Math.random() > 0.2 ? 'paid' : 'pending',
-                        receipt: `RCP-${1000 + id}`,
-                        notes: Math.random() > 0.7 ? 'Urgent delivery required' : null,
-                        items_count: Math.floor(Math.random() * 5) + 1,
+                        payment_method: ['cash', 'card', 'mobile', 'credit', 'partial'][Math.floor(Math
+                        .random() * 5)],
+                        status: status,
+                        amount_paid: amountPaid,
+                        receipt: `ORD-${1000 + id}`,
+                        notes: Math.random() > 0.7 ? 'Customer will collect tomorrow' : null,
+                        items_count: Math.floor(Math.random() * 4) + 1,
                         created_at: new Date(Date.now() - Math.random() * 10000000000).toISOString(),
                         updated_at: new Date(Date.now() - Math.random() * 5000000000).toISOString()
                     };
                 });
 
                 const stats = {
-                    total_purchases: 28,
-                    total_spent: '45,678.90',
-                    pending_payments: '2,345.67',
-                    top_supplier: 'AgroSupply Ltd'
+                    total_orders: 42,
+                    pending_orders: 15,
+                    completed_today: 3,
+                    order_value: '8,456.78'
                 };
 
                 return {
-                    data: mockInventories,
+                    data: mockOrders,
                     current_page: page,
-                    last_page: 3,
+                    last_page: 4,
                     per_page: 10,
-                    total: 28,
+                    total: 42,
                     stats: stats
                 };
             }
 
             showLoadingState() {
                 document.getElementById('loading-state').style.display = 'block';
-                document.getElementById('inventory-table').style.display = 'none';
+                document.getElementById('orders-table').style.display = 'none';
                 document.getElementById('empty-state').classList.add('hidden');
                 document.getElementById('pagination-container').style.display = 'none';
             }
@@ -680,107 +733,137 @@
                 document.getElementById('loading-state').innerHTML = `
                     <div class="text-center text-red-600">
                         <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
-                        <p>Failed to load inventory data</p>
-                        <button class="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" onclick="window.inventoryResource.loadInventories()">
+                        <p>Failed to load orders</p>
+                        <button class="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" onclick="window.ordersResource.loadOrders()">
                             Retry
                         </button>
                     </div>
                 `;
             }
 
-            renderInventoriesList() {
-                const tbody = document.getElementById('inventory-table-body');
+            renderOrdersList() {
+                const tbody = document.getElementById('orders-table-body');
                 tbody.innerHTML = '';
 
-                if (this.inventories.length === 0) {
+                if (this.orders.length === 0) {
                     this.showEmptyState();
                     return;
                 }
 
-                this.inventories.forEach(inventory => {
-                    const row = this.createInventoryRow(inventory);
+                this.orders.forEach(order => {
+                    const row = this.createOrderRow(order);
                     tbody.appendChild(row);
                 });
 
                 document.getElementById('loading-state').style.display = 'none';
-                document.getElementById('inventory-table').style.display = 'table';
+                document.getElementById('orders-table').style.display = 'table';
                 document.getElementById('empty-state').classList.add('hidden');
             }
 
-            createInventoryRow(inventory) {
+            createOrderRow(order) {
                 const row = document.createElement('tr');
                 row.className = 'table-row fade-in';
 
-                const statusBadge = inventory.status === 'paid' ?
-                    '<span class="status-badge bg-green-100 text-green-800">Paid</span>' :
-                    inventory.status === 'pending' ?
-                    '<span class="status-badge bg-yellow-100 text-yellow-800">Pending</span>' :
-                    '<span class="status-badge bg-red-100 text-red-800">Cancelled</span>';
-
-                const paymentBadge = this.getPaymentBadge(inventory.payment_method);
+                const statusBadge = this.getStatusBadge(order.status);
+                const paymentBadge = this.getPaymentBadge(order.payment_method);
+                const progressPercentage = (order.amount_paid / order.grand_total) * 100;
 
                 row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#INV-${inventory.id.toString().padStart(3, '0')}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${inventory.supplier}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(inventory.created_at).toLocaleDateString()}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$${inventory.grand_total}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-${order.id.toString().padStart(3, '0')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${order.customer}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(order.created_at).toLocaleDateString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$${order.grand_total}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${paymentBadge}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${statusBadge}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${inventory.items_count} items</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="progress-bar">
+                            <div class="progress-fill ${progressPercentage === 100 ? 'bg-green-600' : 'bg-blue-600'}" style="width: ${progressPercentage}%"></div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">${Math.round(progressPercentage)}%</div>
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button class="text-green-600 hover:text-green-900 mr-3 edit-inventory" data-id="${inventory.id}">
+                        <button class="text-green-600 hover:text-green-900 mr-3 edit-order" data-id="${order.id}">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="text-red-600 hover:text-red-900 delete-inventory" data-id="${inventory.id}">
+                        <button class="text-red-600 hover:text-red-900 delete-order" data-id="${order.id}">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>
                 `;
 
                 // Add event listeners
-                row.querySelector('.edit-inventory').addEventListener('click', () => {
-                    this.showFormView(inventory.id);
+                row.querySelector('.edit-order').addEventListener('click', () => {
+                    this.showFormView(order.id);
                 });
 
-                row.querySelector('.delete-inventory').addEventListener('click', () => {
-                    this.deleteInventory(inventory.id);
+                row.querySelector('.delete-order').addEventListener('click', () => {
+                    this.deleteOrder(order.id);
                 });
 
                 return row;
             }
 
-            getPaymentBadge(method) {
+            getStatusBadge(status) {
                 const badges = {
-                    'Cash': 'bg-green-100 text-green-800',
-                    'Bank Transfer': 'bg-blue-100 text-blue-800',
-                    'Cheque': 'bg-purple-100 text-purple-800',
-                    'Credit': 'bg-yellow-100 text-yellow-800'
+                    'pending': 'bg-yellow-100 text-yellow-800',
+                    'confirmed': 'bg-blue-100 text-blue-800',
+                    'processing': 'bg-purple-100 text-purple-800',
+                    'completed': 'bg-green-100 text-green-800',
+                    'cancelled': 'bg-red-100 text-red-800'
                 };
 
-                return `<span class="payment-badge ${badges[method]}">${method}</span>`;
+                const statusText = {
+                    'pending': 'Pending',
+                    'confirmed': 'Confirmed',
+                    'processing': 'Processing',
+                    'completed': 'Completed',
+                    'cancelled': 'Cancelled'
+                };
+
+                return `<span class="status-badge ${badges[status]}">${statusText[status]}</span>`;
+            }
+
+            getPaymentBadge(method) {
+                const badges = {
+                    'cash': 'bg-green-100 text-green-800',
+                    'card': 'bg-blue-100 text-blue-800',
+                    'mobile': 'bg-purple-100 text-purple-800',
+                    'credit': 'bg-yellow-100 text-yellow-800',
+                    'partial': 'bg-orange-100 text-orange-800'
+                };
+
+                const methodText = {
+                    'cash': 'Cash',
+                    'card': 'Card',
+                    'mobile': 'Mobile',
+                    'credit': 'Credit',
+                    'partial': 'Partial'
+                };
+
+                return `<span class="payment-badge ${badges[method]}">${methodText[method]}</span>`;
             }
 
             showEmptyState() {
                 document.getElementById('loading-state').style.display = 'none';
-                document.getElementById('inventory-table').style.display = 'none';
+                document.getElementById('orders-table').style.display = 'none';
                 document.getElementById('empty-state').classList.remove('hidden');
                 document.getElementById('pagination-container').style.display = 'none';
             }
 
             updateStats(stats) {
-                document.getElementById('total-purchases').textContent = stats.total_purchases;
-                document.getElementById('total-spent').textContent = `$${stats.total_spent}`;
-                document.getElementById('pending-payments').textContent = `$${stats.pending_payments}`;
-                document.getElementById('top-supplier').textContent = stats.top_supplier;
+                document.getElementById('total-orders').textContent = stats.total_orders;
+                document.getElementById('pending-orders').textContent = stats.pending_orders;
+                document.getElementById('completed-today').textContent = stats.completed_today;
+                document.getElementById('order-value').textContent = `$${stats.order_value}`;
             }
 
             updatePagination() {
                 const from = (this.currentPage - 1) * 10 + 1;
-                const to = Math.min(this.currentPage * 10, 28);
+                const to = Math.min(this.currentPage * 10, 42);
 
                 document.getElementById('pagination-from').textContent = from;
                 document.getElementById('pagination-to').textContent = to;
-                document.getElementById('pagination-total').textContent = 28;
+                document.getElementById('pagination-total').textContent = 42;
 
                 document.getElementById('prev-page').disabled = this.currentPage === 1;
                 document.getElementById('next-page').disabled = this.currentPage === this.totalPages;
@@ -790,68 +873,69 @@
 
             previousPage() {
                 if (this.currentPage > 1) {
-                    this.loadInventories(this.currentPage - 1);
+                    this.loadOrders(this.currentPage - 1);
                 }
             }
 
             nextPage() {
                 if (this.currentPage < this.totalPages) {
-                    this.loadInventories(this.currentPage + 1);
+                    this.loadOrders(this.currentPage + 1);
                 }
             }
 
             handleSearch(e) {
                 this.searchTerm = e.target.value.toLowerCase();
                 console.log('Searching for:', this.searchTerm);
+                // In real implementation, this would trigger an API call with search term
             }
 
             showListView() {
                 this.currentView = 'list';
                 document.getElementById('list-view').classList.remove('hidden');
                 document.getElementById('form-view').classList.add('hidden');
-                document.getElementById('page-title').textContent = 'Inventory';
-                document.getElementById('page-description').textContent = 'Manage your stock purchases and suppliers';
+                document.getElementById('page-title').textContent = 'Orders';
+                document.getElementById('page-description').textContent = 'Manage customer orders and pre-sales';
             }
 
-            showFormView(inventoryId = null) {
+            showFormView(orderId = null) {
                 this.currentView = 'form';
-                this.currentInventoryId = inventoryId;
+                this.currentOrderId = orderId;
 
                 document.getElementById('list-view').classList.add('hidden');
                 document.getElementById('form-view').classList.remove('hidden');
 
-                if (inventoryId) {
-                    document.getElementById('form-title').textContent = 'Edit Inventory Purchase';
-                    this.loadInventoryForEdit(inventoryId);
+                if (orderId) {
+                    document.getElementById('form-title').textContent = 'Edit Customer Order';
+                    this.loadOrderForEdit(orderId);
+                    this.showPaymentProgress();
+                    document.getElementById('complete-sale-btn').classList.remove('hidden');
                 } else {
-                    document.getElementById('form-title').textContent = 'New Inventory Purchase';
+                    document.getElementById('form-title').textContent = 'New Customer Order';
                     this.resetForm();
+                    document.getElementById('payment-progress-section').classList.add('hidden');
+                    document.getElementById('complete-sale-btn').classList.add('hidden');
                 }
             }
 
             resetForm() {
-                document.getElementById('inventory-form').reset();
-                document.getElementById('inventory-items-container').innerHTML = '';
-                this.addInventoryItem(); // Add one empty item
+                document.getElementById('order-form').reset();
+                document.getElementById('order-items-container').innerHTML = '';
+                this.addOrderItem(); // Add one empty item
                 this.updateTotals();
+                this.amountPaid = 0;
             }
 
-            addInventoryItem(product = null) {
-                const container = document.getElementById('inventory-items-container');
+            addOrderItem(product = null) {
+                const container = document.getElementById('order-items-container');
                 const itemId = Date.now();
 
                 const itemHtml = `
-                    <tr class="inventory-item" data-item-id="${itemId}">
+                    <tr class="order-item" data-item-id="${itemId}">
                         <td class="px-4 py-3">
                             <select name="items[${itemId}][product_id]" class="product-select w-full px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-green-500">
                                 <option value="">Select Product</option>
-                                ${this.products.map(p => `<option value="${p.id}" ${product && product.product_id === p.id ? 'selected' : ''}>${p.name}</option>`).join('')}
+                                ${this.products.map(p => `<option value="${p.id}" ${product && product.product_id === p.id ? 'selected' : ''} data-price="${p.price}">${p.name} - $${p.price}</option>`).join('')}
                             </select>
-                        </td>
-                        <td class="px-4 py-3">
-                            <input type="text" name="items[${itemId}][sku]" value="${product ? product.sku : ''}"
-                                class="sku-input w-24 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
-                                placeholder="SKU">
                         </td>
                         <td class="px-4 py-3">
                             <input type="number" name="items[${itemId}][quantity]" value="${product ? product.quantity : 1}" min="1"
@@ -873,13 +957,26 @@
                 `;
 
                 container.insertAdjacentHTML('beforeend', itemHtml);
+
+                // Add event listeners for product selection
+                const productSelect = container.querySelector(`[data-item-id="${itemId}"] .product-select`);
+                productSelect.addEventListener('change', (e) => {
+                    const selectedOption = e.target.options[e.target.selectedIndex];
+                    const price = selectedOption.dataset.price;
+                    if (price) {
+                        const priceInput = container.querySelector(`[data-item-id="${itemId}"] .price-input`);
+                        priceInput.value = price;
+                        this.updateTotals();
+                    }
+                });
+
                 this.updateTotals();
             }
 
             handleItemAction(e) {
                 if (e.target.closest('.remove-item')) {
-                    const itemRow = e.target.closest('.inventory-item');
-                    if (document.querySelectorAll('.inventory-item').length > 1) {
+                    const itemRow = e.target.closest('.order-item');
+                    if (document.querySelectorAll('.order-item').length > 1) {
                         itemRow.remove();
                         this.updateTotals();
                     } else {
@@ -891,7 +988,7 @@
             updateTotals() {
                 let subtotal = 0;
 
-                document.querySelectorAll('.inventory-item').forEach(row => {
+                document.querySelectorAll('.order-item').forEach(row => {
                     const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
                     const price = parseFloat(row.querySelector('.price-input').value) || 0;
                     const total = quantity * price;
@@ -900,123 +997,227 @@
                     subtotal += total;
                 });
 
-                // For inventory, tax might be included in unit price or calculated separately
-                const tax = 0; // You can add tax calculation if needed
+                const tax = subtotal * 0.08;
                 const grandTotal = subtotal + tax;
 
                 document.getElementById('subtotal-display').textContent = `$${subtotal.toFixed(2)}`;
                 document.getElementById('tax-display').textContent = `$${tax.toFixed(2)}`;
                 document.getElementById('grand-total-display').textContent = `$${grandTotal.toFixed(2)}`;
-            }
 
-            async loadInventoryForEdit(inventoryId) {
-                // In real app, this would fetch from API
-                const inventory = this.inventories.find(i => i.id === inventoryId);
-                if (inventory) {
-                    document.getElementById('supplier').value = inventory.supplier;
-                    document.getElementById('payment_method').value = inventory.payment_method;
-                    document.getElementById('receipt').value = inventory.receipt || '';
-                    document.getElementById('status').value = inventory.status;
-                    document.getElementById('notes').value = inventory.notes || '';
-
-                    // Load inventory items would go here
+                // Update payment progress if in edit mode
+                if (this.currentOrderId) {
+                    this.updatePaymentProgress(grandTotal);
                 }
             }
 
-            async handleFormSubmit(e) {
-                e.preventDefault();
+            async loadOrderForEdit(orderId) {
+                // In real app, this would fetch from API
+                const order = this.orders.find(o => o.id === orderId);
+                if (order) {
+                    document.getElementById('customer').value = order.customer;
+                    document.getElementById('payment_method').value = order.payment_method;
+                    document.getElementById('status').value = order.status;
+                    document.getElementById('receipt').value = order.receipt || '';
+                    document.getElementById('notes').value = order.notes || '';
+                    this.amountPaid = parseFloat(order.amount_paid);
 
-                const formData = new FormData(e.target);
-                const inventoryData = {
-                    supplier: formData.get('supplier'),
-                    payment_method: formData.get('payment_method'),
-                    receipt: formData.get('receipt'),
-                    status: formData.get('status'),
-                    notes: formData.get('notes'),
-                    items: []
-                };
+                    // Load order items would go here
+                    // For now, we'll add a sample item
+                    this.addOrderItem({
+                        product_id: 1,
+                        quantity: 2,
+                        unit_amount: 24.99
+                    });
+                }
+            }
 
-                // Collect items data
-                document.querySelectorAll('.inventory-item').forEach(row => {
+            showPaymentProgress() {
+                document.getElementById('payment-progress-section').classList.remove('hidden');
+                this.updatePaymentProgress();
+            }
+
+            updatePaymentProgress(grandTotal = null) {
+                if (!grandTotal) {
+                    grandTotal = parseFloat(document.getElementById('grand-total-display').textContent.replace('$',
+                        '')) || 0;
+                }
+
+                const progressPercentage = grandTotal > 0 ? (this.amountPaid / grandTotal) * 100 : 0;
+                const remainingAmount = grandTotal - this.amountPaid;
+
+                document.getElementById('amount-paid-display').textContent = `$${this.amountPaid.toFixed(2)}`;
+                document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
+                document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% Complete`;
+                document.getElementById('remaining-amount').textContent = `$${remainingAmount.toFixed(2)} remaining`;
+
+                // Update progress bar color
+                const progressFill = document.getElementById('progress-fill');
+                if (progressPercentage === 100) {
+                    progressFill.className = 'progress-fill bg-green-600';
+                } else if (progressPercentage >= 50) {
+                    progressFill.className = 'progress-fill bg-blue-600';
+                } else {
+                    progressFill.className = 'progress-fill bg-yellow-600';
+                }
+            }
+
+            addPayment() {
+                const additionalPayment = parseFloat(document.getElementById('additional-payment').value) || 0;
+                const grandTotal = parseFloat(document.getElementById('grand-total-display').textContent.replace('$',
+                    '')) || 0;
+
+                if (additionalPayment <= 0) {
+                    alert('Please enter a valid payment amount');
+                    return;
+                }
+
+                this.amountPaid += additionalPayment;
+
+                // Don't allow overpayment
+                if (this.amountPaid > grandTotal) {
+                    this.amountPaid = grandTotal;
+                    alert('Payment cannot exceed order total');
+                }
+
+                this.updatePaymentProgress(grandTotal);
+                document.getElementById('additional-payment').value = '';
+
+                // If fully paid, suggest completing to sale
+                if (this.amountPaid >= grandTotal) {
+                    document.getElementById('status').value = 'completed';
+                    alert('Order fully paid! You can now complete this to a sale.');
+                }
+            }
+
+            async completeToSale() {
+                const grandTotal = parseFloat(document.getElementById('grand-total-display').textContent.replace('$',
+                    '')) || 0;
+
+                if (this.amountPaid < grandTotal) {
+                    if (!confirm('Order is not fully paid. Are you sure you want to complete it to sale?')) {
+                        return;
+                    }
+                }
+
+                try {
+                    // Simulate API call to convert order to sale
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    const orderData = {
+                        customer: document.getElementById('customer').value,
+                        grand_total: grandTotal,
+                        payment_method: document.getElementById('payment_method').value,
+                        status: 'paid',
+                        receipt: document.getElementById('receipt').value,
+                        notes: document.getElementById('notes').value,
+                        items: this.getOrderItemsData()
+                    };
+
+                    console.log('Converting order to sale:', orderData);
+                    alert('Order successfully converted to sale!');
+                    this.showListView();
+                    this.loadOrders(); // Refresh the list
+
+                } catch (error) {
+                    console.error('Error converting order to sale:', error);
+                    alert('Error converting order to sale. Please try again.');
+                }
+            }
+
+            getOrderItemsData() {
+                const items = [];
+                document.querySelectorAll('.order-item').forEach(row => {
                     const productId = row.querySelector('.product-select').value;
-                    const sku = row.querySelector('.sku-input').value;
                     const quantity = row.querySelector('.quantity-input').value;
                     const unitAmount = row.querySelector('.price-input').value;
 
                     if (productId && quantity && unitAmount) {
-                        inventoryData.items.push({
+                        items.push({
                             product_id: productId,
-                            sku: sku,
                             quantity: parseInt(quantity),
                             unit_amount: parseFloat(unitAmount),
                             total_amount: parseFloat(quantity) * parseFloat(unitAmount)
                         });
                     }
                 });
+                return items;
+            }
+
+            async handleFormSubmit(e) {
+                e.preventDefault();
+
+                const formData = new FormData(e.target);
+                const orderData = {
+                    customer: formData.get('customer'),
+                    payment_method: formData.get('payment_method'),
+                    status: formData.get('status'),
+                    receipt: formData.get('receipt'),
+                    notes: formData.get('notes'),
+                    amount_paid: this.amountPaid,
+                    items: this.getOrderItemsData()
+                };
 
                 // Calculate grand total
-                inventoryData.grand_total = inventoryData.items.reduce((sum, item) => sum + item.total_amount, 0);
+                orderData.grand_total = orderData.items.reduce((sum, item) => sum + item.total_amount, 0) * 1.08;
 
                 try {
-                    if (this.currentInventoryId) {
-                        await this.updateInventory(this.currentInventoryId, inventoryData);
+                    if (this.currentOrderId) {
+                        await this.updateOrder(this.currentOrderId, orderData);
                     } else {
-                        await this.createInventory(inventoryData);
+                        await this.createOrder(orderData);
                     }
                 } catch (error) {
-                    console.error('Error saving inventory:', error);
-                    alert('Error saving inventory purchase. Please try again.');
+                    console.error('Error saving order:', error);
+                    alert('Error saving order. Please try again.');
                 }
             }
 
-            async createInventory(inventoryData) {
+            async createOrder(orderData) {
                 // Simulate API call
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                console.log('Creating inventory:', inventoryData);
-                alert('Inventory purchase created successfully!');
+                console.log('Creating order:', orderData);
+                alert('Order created successfully!');
                 this.showListView();
-                this.loadInventories(); // Refresh the list
+                this.loadOrders(); // Refresh the list
             }
 
-            async updateInventory(inventoryId, inventoryData) {
+            async updateOrder(orderId, orderData) {
                 // Simulate API call
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                console.log('Updating inventory:', inventoryId, inventoryData);
-                alert('Inventory purchase updated successfully!');
+                console.log('Updating order:', orderId, orderData);
+                alert('Order updated successfully!');
                 this.showListView();
-                this.loadInventories(); // Refresh the list
+                this.loadOrders(); // Refresh the list
             }
 
-            async deleteInventory(inventoryId) {
-                if (!confirm('Are you sure you want to delete this inventory purchase?')) {
+            async deleteOrder(orderId) {
+                if (!confirm('Are you sure you want to delete this order?')) {
                     return;
                 }
 
                 try {
                     // Simulate API call
                     await new Promise(resolve => setTimeout(resolve, 800));
-                    console.log('Deleting inventory:', inventoryId);
-                    alert('Inventory purchase deleted successfully!');
-                    this.loadInventories(); // Refresh the list
+                    console.log('Deleting order:', orderId);
+                    alert('Order deleted successfully!');
+                    this.loadOrders(); // Refresh the list
                 } catch (error) {
-                    console.error('Error deleting inventory:', error);
-                    alert('Error deleting inventory purchase. Please try again.');
+                    console.error('Error deleting order:', error);
+                    alert('Error deleting order. Please try again.');
                 }
             }
 
-            exportInventories() {
-                console.log('Exporting inventory data...');
-                alert('Inventory export started! You will receive the file shortly.');
+            exportOrders() {
+                console.log('Exporting orders data...');
+                alert('Orders export started! You will receive the file shortly.');
             }
         }
 
-        // Initialize the inventory resource when page loads
+        // Initialize the orders resource when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            window.inventoryResource = new InventoryResource();
+            window.ordersResource = new OrdersResource();
         });
     </script>
 </body>
 
 </html>
-
-{{-- </x-dashboard-layout> --}}

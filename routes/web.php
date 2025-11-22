@@ -1,9 +1,14 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\WholesaleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,6 +54,12 @@ Route::resource('pos', PosController::class)
     ]);
 
 Route::get('pos-guest', [PosController::class, 'guest'])->name(name: 'pos.guest');
+
+Route::get('products', [ProductController::class, 'index'])->name(name: 'products');
+Route::get('orders', [OrderController::class, 'index'])->name(name: 'orders');
+Route::get('report', [ReportController::class, 'index'])->name(name: 'report');
+Route::get('expense', [ExpenseController::class, 'index'])->name(name: 'expense');
+Route::get('wholesale', [WholesaleController::class, 'index'])->name(name: 'wholesale');
 
 
 Route::resource('sales', SalesController::class)
