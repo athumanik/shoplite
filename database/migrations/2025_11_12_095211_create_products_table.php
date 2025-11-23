@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->decimal('price', 10, 0);
             $table->decimal('wholesale_price', 10, 0);
             $table->decimal('buying_price', 10, 0)->nullable();
+            $table->integer('stock')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

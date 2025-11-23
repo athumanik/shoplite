@@ -1,28 +1,23 @@
 <x-dashboard-layout>
+    @include('dash.style')
 
-    <div id="content">
-        <div class="container-fluid">
+    <!-- Header -->
+    @include('dash.header')
+    <!-- Header -->
 
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h2 class="fw-bold text-dark">Dashboard Overview</h2>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Agrovet</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+     <!-- Content Area -->
+    <div class="flex-1 overflow-auto p-6">
+        <!-- dashboard List View -->
 
-            {{-- Cards  --}}
-            @include('dashboard.stats')
+        @include('dash.list')
 
+        <!-- dashboard List View -->
+      @include('dash.chart')
+      @include('dash.customer')
 
-
-
-
-        </div>
     </div>
+    <!-- Content Area -->
+
+        @include('dash.script')
 
 </x-dashboard-layout>

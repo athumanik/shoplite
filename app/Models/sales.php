@@ -11,6 +11,7 @@ class sales extends Model
     use HasFactory;
     protected $fillable = [
         'customer',
+        'customer_type',
         'grand_total',
         'payment_method',
         'status',

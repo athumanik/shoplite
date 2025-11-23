@@ -1,57 +1,36 @@
+    <script>
+        class Dashboard {
+            constructor() {
+                this.isSidebarCollapsed = false;
+                this.initializeEventListeners();
+            }
 
- <!-- Custom JS -->
- <script>
-     document.addEventListener('DOMContentLoaded', function() {
-         // Initialize AOS animation
-         AOS.init({
-             duration: 800,
-             easing: 'ease-in-out',
-             once: true
-         });
+            initializeEventListeners() {
+                // Sidebar toggle
+                document.getElementById('sidebar-toggle').addEventListener('click', () => this.toggleSidebar());
+            }
 
-         // Toggle sidebar
-         const sidebar = document.getElementById('sidebar');
-         const content = document.getElementById('content');
-         const navbar = document.getElementById('navbar');
-         const sidebarCollapse = document.getElementById('sidebarCollapse');
-         const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+            toggleSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                const mainContent = document.querySelector('.main-content');
+                const toggleIcon = document.querySelector('#sidebar-toggle i');
 
-         // Desktop toggle
-         sidebarCollapse.addEventListener('click', function() {
-             sidebar.classList.toggle('minimized');
-             content.classList.toggle('minimized');
-             navbar.classList.toggle('minimized');
-         });
+                this.isSidebarCollapsed = !this.isSidebarCollapsed;
 
-         // Mobile toggle
-         mobileSidebarToggle.addEventListener('click', function() {
-             sidebar.classList.toggle('show');
-         });
+                sidebar.classList.toggle('collapsed');
 
-         // Close sidebar when clicking outside on mobile
-         content.addEventListener('click', function() {
-             if (window.innerWidth < 768 && sidebar.classList.contains('show')) {
-                 sidebar.classList.remove('show');
-             }
-         });
+                if (this.isSidebarCollapsed) {
+                    toggleIcon.className = 'fas fa-chevron-right text-gray-600 text-xs';
+                } else {
+                    toggleIcon.className = 'fas fa-chevron-left text-gray-600 text-xs';
+                }
+            }
+        }
 
-         // Responsive behavior
-         function handleResponsive() {
-             if (window.innerWidth >= 768) {
-                 sidebar.classList.remove('show');
-             }
-         }
 
-         window.addEventListener('resize', handleResponsive);
-         handleResponsive();
+        // Initialize the dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            window.dashboard = new Dashboard();
 
-         // Add active class to clicked sidebar items
-         const sidebarItems = document.querySelectorAll('.sidebar-item:not(.dropdown-toggle)');
-         sidebarItems.forEach(item => {
-             item.addEventListener('click', function() {
-                 sidebarItems.forEach(i => i.classList.remove('active'));
-                 this.classList.add('active');
-             });
-         });
-     });
- </script>
+        });
+    </script>

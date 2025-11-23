@@ -14,6 +14,7 @@ class ShopController extends Controller
             'id',
             'name',
             'slug',
+            'stock',
             'price',
             'wholesale_price',
             'buying_price',

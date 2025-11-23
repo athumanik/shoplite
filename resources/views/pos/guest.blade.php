@@ -2,11 +2,14 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('fav/fav.png') }}">
+
+    <title>POS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Agrovet POS</title>
 
     <style>
         .modal-bg {
@@ -33,8 +36,13 @@
 
         /* Custom animations */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .fade-in {
@@ -74,8 +82,8 @@
                         <div class="relative">
                             <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                             <input id="search-input"
-                                   class="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-                                   placeholder="Search products...">
+                                class="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                placeholder="Search products...">
                         </div>
                     </div>
                     <div class="flex gap-2 overflow-x-auto pb-2">
@@ -94,16 +102,19 @@
                         <button class="category-btn px-4 py-2 bg-gray-100 text-gray-800 rounded-lg whitespace-nowrap hover:bg-gray-200 transition-colors">
                             Tools
                         </button> --}}
-                         <!-- Pagination -->
-            <div class="flex justify-center mt-6">
-                <button id="prev-page" class="px-4 py-2 bg-gray-200 rounded-l-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                    <i class="fas fa-chevron-left"></i> Prev
-                </button>
-                <span id="page-number" class="px-4 py-2 font-semibold bg-white border-t border-b border-gray-300"></span>
-                <button id="next-page" class="px-4 py-2 bg-gray-200 rounded-r-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                    Next <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
+                        <!-- Pagination -->
+                        <div class="flex justify-center mt-6">
+                            <button id="prev-page"
+                                class="px-4 py-2 bg-gray-200 rounded-l-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                <i class="fas fa-chevron-left"></i> Prev
+                            </button>
+                            <span id="page-number"
+                                class="px-4 py-2 font-semibold bg-white border-t border-b border-gray-300"></span>
+                            <button id="next-page"
+                                class="px-4 py-2 bg-gray-200 rounded-r-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -145,14 +156,17 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <button id="cancel-btn" class="px-3 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors btn-hover">
+                        <button id="cancel-btn"
+                            class="px-3 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors btn-hover">
                             <i class="fas fa-times mr-1"></i> Cancel
                         </button>
-                        <button id="hold-btn" class="px-3 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors btn-hover">
+                        <button id="hold-btn"
+                            class="px-3 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors btn-hover">
                             <i class="fas fa-pause mr-1"></i> Hold
                         </button>
                     </div>
-                    <button id="checkout-btn" class="w-full mt-2 px-3 py-3 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors btn-hover">
+                    <button id="checkout-btn"
+                        class="w-full mt-2 px-3 py-3 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors btn-hover">
                         <i class="fas fa-credit-card mr-1"></i> Checkout
                     </button>
                 </div>
@@ -169,7 +183,11 @@
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-
+            <div class="p-4 rounded-lg mb-4">
+                <input type="text" for="customer" id="customer" name="name" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    placeholder="Customer Name">
+            </div>
             <div class="bg-green-50 p-4 rounded-lg mb-4">
                 <p class="text-sm text-gray-600 mb-1">Total Amount:</p>
                 <p class="text-2xl font-bold text-green-700" id="checkout-total">0 Tsh</p>
@@ -178,13 +196,16 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Payment Method</label>
                 <div class="flex gap-2 overflow-x-auto pb-2">
-                    <button class="payment-option px-4 py-2 bg-green-100 text-green-800 rounded-lg whitespace-nowrap border-2 border-green-500">
+                    <button
+                        class="payment-option px-4 py-2 bg-green-100 text-green-800 rounded-lg whitespace-nowrap border-2 border-green-500">
                         <i class="fas fa-money-bill-wave mr-1"></i> Cash
                     </button>
-                    <button class="payment-option px-4 py-2 bg-gray-100 text-gray-800 rounded-lg whitespace-nowrap border border-gray-300">
+                    <button
+                        class="payment-option px-4 py-2 bg-gray-100 text-gray-800 rounded-lg whitespace-nowrap border border-gray-300">
                         <i class="fas fa-mobile-alt mr-1"></i> M-Pesa
                     </button>
-                    <button class="payment-option px-4 py-2 bg-gray-100 text-gray-800 rounded-lg whitespace-nowrap border border-gray-300">
+                    <button
+                        class="payment-option px-4 py-2 bg-gray-100 text-gray-800 rounded-lg whitespace-nowrap border border-gray-300">
                         <i class="fas fa-credit-card mr-1"></i> Card
                     </button>
                 </div>
@@ -196,10 +217,12 @@
             </div>
 
             <div class="flex justify-end gap-2 mt-4">
-                <button id="close-modal-btn" class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-colors">
+                <button id="close-modal-btn"
+                    class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-colors">
                     Cancel
                 </button>
-                <button id="confirm-checkout" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                <button id="confirm-checkout"
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                     Confirm Payment
                 </button>
             </div>
@@ -215,28 +238,104 @@
             day: 'numeric'
         });
 
-        function productCard(p) {
-            return `
-        <div class="product-card bg-white rounded-xl shadow p-4 hover:shadow-md transition-shadow fade-in">
-            <div class="h-32 bg-green-50 rounded-lg mb-3 flex items-center justify-center">
-                <i class="fas fa-seedling text-4xl text-green-600"></i>
-            </div>
-            <h3 class="font-semibold text-sm mb-1 truncate">${p.name}</h3>
-            <p class="text-green-700 font-bold text-lg mb-3">${p.price.toLocaleString()} Tsh</p>
-            <button class="add-btn bg-green-600 text-white w-full py-2 rounded-lg hover:bg-green-700 transition-colors btn-hover"
-                data-id="${p.id}">
-                <i class="fas fa-cart-plus mr-1"></i> Add to Cart
-            </button>
-        </div>
-        `;
+
+
+        function formatPrice(price) {
+            return Number(price).toLocaleString("en-US");
         }
 
+        function formatName(name) {
+            return name
+                .toLowerCase()
+                .split(" ")
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+        }
+
+        function truncate(text, max = 30) {
+            if (!text) return "No name";
+            return text.length > max ? text.substring(0, max) + "..." : text;
+        }
+
+
+
+        function productCard(p) {
+            const nameFormatted = formatName(p.name);
+            const nameShort = truncate(nameFormatted, 32);
+
+            const lowStock = p.stock > 0 && p.stock <= 5;
+            const outOfStock = p.stock <= 0;
+
+            const stockColor = outOfStock ?
+                "text-gray-500 font-semibold" :
+                lowStock ?
+                "text-yellow-600 font-semibold" :
+                "text-green-600 font-semibold";
+
+            const btnColor = outOfStock ?
+                "bg-gray-300 cursor-not-allowed text-gray-600" :
+                lowStock ?
+                "bg-yellow-600 hover:bg-yellow-700 text-white" :
+                "bg-green-600 hover:bg-green-700 text-white";
+
+            return `
+    <div class="product-card bg-white rounded-xl shadow p-4 hover:shadow-md transition-all fade-in">
+
+        <!-- ICON + STOCK ROW -->
+        <div class="flex items-center mb-3">
+
+            <!-- Small icon box -->
+            <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                <i class="fas fa-box text-green-600 text-lg"></i>
+            </div>
+
+            <!-- Stock -->
+            <div class="flex-1 text-right">
+                <span class="text-xs text-gray-500">Stock</span>
+                <p class="text-lg ${stockColor}">
+                    ${p.stock}
+                </p>
+            </div>
+        </div>
+
+        <!-- NAME -->
+        <h4 class="font-medium text-sm text-gray-800 truncate mb-1" title="${nameFormatted}">
+            ${nameShort}
+        </h4>
+
+        <!-- PRICE -->
+        <p class="text-gray-900 font-bold text-md mb-3">
+            ${formatPrice(p.price)} Tsh
+        </p>
+
+        <!-- BUTTON -->
+        <button
+            class="add-btn w-full py-2 rounded-xl transition-colors ${btnColor}"
+            data-id="${p.id}"
+            ${outOfStock ? "disabled" : ""}
+        >
+            <i class="fas fa-cart-plus mr-1"></i>
+            ${outOfStock ? "Out of Stock" : lowStock ? "Low Stock" : "Add to Cart"}
+        </button>
+
+    </div>
+    `;
+        }
+
+
+
         function cartItemRow(item) {
+            const nameFormatted = formatName(item.name);
+            const nameShort = truncate(nameFormatted, 18);
             return `
         <div class="cart-row flex justify-between items-center my-3 bg-gray-50 p-3 rounded-lg fade-in">
             <div class="flex-grow">
-                <p class="font-medium text-sm">${item.name}</p>
-                <p class="text-xs text-gray-500">${item.price.toLocaleString()} Tsh × ${item.qty}</p>
+               <p class="font-medium text-sm truncate" title="${nameFormatted}">
+                ${nameShort}
+            </p>
+             <p class="text-xs text-gray-500">
+               ${formatPrice(item.price)} × ${item.qty} = ${formatPrice(item.price * item.qty)}
+            </p>
             </div>
             <div class="flex gap-1">
                 <button data-action="minus" data-id="${item.id}"
@@ -254,315 +353,7 @@
         }
     </script>
 
-    {{-- POS LOGIC (Pagination, Cart, Checkout, API) --}}
-    <script>
-        class POSController {
-            constructor() {
-                this.products = [];
-                this.filtered = [];
-                this.cart = new Map();
-
-                this.page = 1;
-                this.perPage = 10;
-
-                this.bindUI();
-                this.loadProducts();
-            }
-
-            /* -------------------------------
-                BIND UI
-            ------------------------------- */
-            bindUI() {
-                document.getElementById("search-input")
-                    .addEventListener("input", e => this.search(e.target.value));
-
-                document.getElementById("prev-page").onclick = () => this.changePage(-1);
-                document.getElementById("next-page").onclick = () => this.changePage(1);
-
-                document.getElementById("cart-items")
-                    .addEventListener("click", e => {
-                        let id = e.target.dataset.id;
-                        let action = e.target.dataset.action;
-                        if (!id || !action) return;
-
-                        id = Number(id);
-                        if (action === "plus") this.increaseQty(id);
-                        if (action === "minus") this.decreaseQty(id);
-                        if (action === "remove") this.removeItem(id);
-                    });
-
-                document.getElementById("checkout-btn").onclick = () => this.openCheckout();
-                document.getElementById("close-modal").onclick = () => this.closeCheckout();
-                document.getElementById("close-modal-btn").onclick = () => this.closeCheckout();
-                document.getElementById("confirm-checkout").onclick = () => this.submitSale();
-
-                document.getElementById("cancel-btn").onclick = () => this.cancelCart();
-                document.getElementById("hold-btn").onclick = () => this.holdOrder();
-
-                // Payment option buttons
-                document.querySelectorAll('.payment-option').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        // Remove active class from all buttons
-                        document.querySelectorAll('.payment-option').forEach(b => {
-                            b.classList.remove('border-2', 'border-green-500');
-                            b.classList.add('border', 'border-gray-300');
-                        });
-
-                        // Add active class to clicked button
-                        e.target.classList.add('border-2', 'border-green-500');
-                        e.target.classList.remove('border', 'border-gray-300');
-
-                        // Set payment method
-                        const method = e.target.textContent.trim().toLowerCase();
-                        if (method.includes('cash')) {
-                            document.getElementById('payment-method').value = 'cash';
-                        } else if (method.includes('m-pesa')) {
-                            document.getElementById('payment-method').value = 'mpesa';
-                        } else if (method.includes('card')) {
-                            document.getElementById('payment-method').value = 'card';
-                        }
-                    });
-                });
-            }
-
-            /* -------------------------------
-                LOAD PRODUCTS
-            ------------------------------- */
-            async loadProducts() {
-                // Simulate API call with mock data
-              let res = await fetch("/api/products");
-                this.products = await res.json();
-                this.filtered = [...this.products];
-                this.renderProducts();
-            }
-
-            /* -------------------------------
-                SEARCH
-            ------------------------------- */
-            search(term) {
-                term = term.toLowerCase();
-                this.filtered = this.products.filter(p =>
-                    p.name.toLowerCase().includes(term)
-                );
-
-                this.page = 1;
-                this.renderProducts();
-            }
-
-            /* -------------------------------
-                PAGINATION
-            ------------------------------- */
-            changePage(step) {
-                let max = Math.ceil(this.filtered.length / this.perPage);
-                this.page += step;
-
-                if (this.page < 1) this.page = 1;
-                if (this.page > max) this.page = max;
-
-                this.renderProducts();
-            }
-
-            /* -------------------------------
-                RENDER PRODUCTS
-            ------------------------------- */
-            renderProducts() {
-                let list = document.getElementById("product-list");
-                list.innerHTML = "";
-
-                let start = (this.page - 1) * this.perPage;
-                let items = this.filtered.slice(start, start + this.perPage);
-
-                document.getElementById("page-number").innerText = `Page ${this.page}`;
-
-                items.forEach(p => {
-                    let wrap = document.createElement("div");
-                    wrap.innerHTML = productCard(p);
-
-                    wrap.querySelector(".add-btn").onclick = () => this.addToCart(p);
-
-                    list.appendChild(wrap.firstElementChild);
-                });
-            }
-
-            /* -------------------------------
-                CART LOGIC
-            ------------------------------- */
-            addToCart(product) {
-                if (this.cart.has(product.id)) {
-                    this.cart.get(product.id).qty++;
-                } else {
-                    this.cart.set(product.id, {
-                        id: product.id,
-                        name: product.name,
-                        price: product.price,
-                        qty: 1
-                    });
-                }
-                this.renderCart();
-            }
-
-            increaseQty(id) {
-                this.cart.get(id).qty++;
-                this.renderCart();
-            }
-
-            decreaseQty(id) {
-                let item = this.cart.get(id);
-                if (item.qty > 1) item.qty--;
-                else this.cart.delete(id);
-
-                this.renderCart();
-            }
-
-            removeItem(id) {
-                this.cart.delete(id);
-                this.renderCart();
-            }
-
-            /* -------------------------------
-                RENDER CART
-            ------------------------------- */
-            renderCart() {
-                let container = document.getElementById("cart-items");
-                let empty = document.getElementById("empty-cart");
-
-                container.innerHTML = "";
-
-                if (this.cart.size === 0) {
-                    empty.style.display = "block";
-                    document.getElementById("total-amount").innerText = "0";
-                    document.getElementById("cart-count").innerText = "0";
-                    return;
-                }
-
-                empty.style.display = "none";
-
-                let total = 0;
-                let itemCount = 0;
-
-                this.cart.forEach(item => {
-                    total += item.qty * item.price;
-                    itemCount += item.qty;
-
-                    let row = document.createElement("div");
-                    row.innerHTML = cartItemRow(item);
-                    container.appendChild(row.firstElementChild);
-                });
-
-                document.getElementById("total-amount").innerText =
-                    total.toLocaleString();
-                document.getElementById("cart-count").innerText = itemCount;
-            }
-
-            cartTotal() {
-                let t = 0;
-                this.cart.forEach(i => t += i.qty * i.price);
-                return t;
-            }
-
-            /* -------------------------------
-                CHECKOUT MODAL
-            ------------------------------- */
-            openCheckout() {
-                if (this.cart.size === 0) return alert("Cart empty!");
-                document.getElementById("checkout-total").innerText =
-                    this.cartTotal().toLocaleString() + " Tsh";
-                document.getElementById("checkout-modal").classList.remove("hidden");
-            }
-
-            closeCheckout() {
-                document.getElementById("checkout-modal").classList.add("hidden");
-            }
-
-            /* -------------------------------
-                SUBMIT CHECKOUT TO API
-            ------------------------------- */
-            async submitSale() {
-                let body = {
-                    customer: "Regular",
-                    grand_total: this.cartTotal(),
-                    payment_method: document.getElementById("payment-method").value,
-                    items: []
-                };
-
-                this.cart.forEach(i => {
-                    body.items.push({
-                        product_id: i.id,
-                        quantity: i.qty,
-                        unit_amount: i.price,
-                        total_amount: i.qty * i.price
-                    });
-                });
-
-                // Simulate API call
-                // console.log("Submitting sale:", body);
-
-                // In a real implementation, you would use:
-
-                let res = await fetch("/api/sales", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(body)
-                });
-
-                let data = await res.json();
-
-
-                alert("Sale completed!");
-                this.closeCheckout();
-                this.cancelCart();
-            }
-
-            /* -------------------------------
-                CANCEL & HOLD
-            ------------------------------- */
-            cancelCart() {
-                this.cart.clear();
-                this.renderCart();
-            }
-
-            async holdOrder() {
-                if (this.cart.size === 0) return alert("Cart empty!");
-
-                let body = {
-                    customer: "Regular",
-                    grand_total: this.cartTotal(),
-                    payment_method: "cash",
-                    items: []
-                };
-
-                this.cart.forEach(i => {
-                    body.items.push({
-                        product_id: i.id,
-                        quantity: i.qty,
-                        unit_amount: i.price,
-                        total_amount: i.qty * i.price
-                    });
-                });
-
-                // Simulate API call
-                // console.log("Holding order:", body);
-
-                // In a real implementation, you would use:
-
-                await fetch("/api/orders", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(body)
-                });
-
-
-                alert("Order held!");
-                this.cancelCart();
-            }
-        }
-
-        new POSController();
-    </script>
+    @include('pos.script')
 </body>
 
 </html>

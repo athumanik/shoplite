@@ -57,4 +57,11 @@ class inventory extends Model
 
         return "{$prefix}-{$random}{$number}";
     }
+
+    protected static function booted()
+    {
+        static::creating(function ($inventory) {
+            $inventory->receipt = self::generateReceipt();
+        });
+    }
 }

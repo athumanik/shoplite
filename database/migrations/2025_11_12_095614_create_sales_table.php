@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('customer')->default('Regular');
+            $table->string('customer_type')->default('regular');
             $table->decimal('grand_total', 10, 0)->nullable();
             $table->string('payment_method')->default('cash');
             $table->string('status')->default('paid');
