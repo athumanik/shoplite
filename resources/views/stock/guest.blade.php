@@ -23,6 +23,12 @@
         </div>
     </header>
 
+    {{-- notification --}}
+    <div id="successToast"
+        class="hidden fixed top-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg transition transform">
+        Sale completed successfully ✅
+    </div>
+
     <!-- Main Content -->
     <div class="container mx-auto p-4 flex flex-col lg:flex-row gap-4">
         <!-- Left Column - Products -->
@@ -112,6 +118,9 @@
         </div>
     </div>
 
+
+
+
     <!-- Checkout Modal -->
     <div id="checkout-modal" class="hidden fixed inset-0 modal-bg flex items-center justify-center z-50 fade-in">
         <div class="bg-white p-6 rounded-xl shadow-2xl w-96 max-w-full mx-4">
@@ -122,9 +131,9 @@
                 </button>
             </div>
             <div class="p-4 rounded-lg mb-4">
-                <input type="text" for="customer" id="customer" name="name" required
+                <input type="text" for="supplier" id="supplier" name="name" required
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="Customer Name">
+                    placeholder="Supplier Name">
             </div>
             <div class="bg-green-50 p-4 rounded-lg mb-4">
                 <p class="text-sm text-gray-600 mb-1">Total Amount:</p>
@@ -291,6 +300,7 @@
         `;
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @include('stock.script')
 </body>

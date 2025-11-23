@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ExpenseController;
+use App\Http\Controllers\API\InventoryController;
 use App\Http\Controllers\API\PosController;
 use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\StatsController;
@@ -49,7 +50,13 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::put('/products/{id}', [ProductController::class, 'update']);
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
-
+Route::prefix('inventory')->group(function () {
+    Route::get('/', [InventoryController::class, 'index']);      // GET all
+    Route::get('{id}', [InventoryController::class, 'show']);    // GET single
+    Route::post('/', [InventoryController::class, 'store']);     // CREATE
+    Route::put('{id}', [InventoryController::class, 'update']);  // UPDATE
+    Route::delete('{id}', [InventoryController::class, 'destroy']); // DELETE
+});
 
 Route::get('/expenses', [ExpenseController::class, 'index']);
 Route::post('/expenses', [ExpenseController::class, 'store']);

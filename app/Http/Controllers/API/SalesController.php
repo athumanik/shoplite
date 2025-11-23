@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\product;
 use App\Models\sales;
 use App\Models\sales_item;
 use Illuminate\Http\Request;
@@ -119,6 +120,7 @@ class SalesController extends Controller
             $grandTotal = 0;
 
             foreach ($request->items as $item) {
+                $product = product::findOrFail($item['product_id']);
                 $total = $item['quantity'] * $item['unit_amount'];
 
                 sales_item::create([
@@ -129,7 +131,11 @@ class SalesController extends Controller
                     'total_amount' => $total
                 ]);
 
+                // Decrement stock
+                $product->decrement('stock', $item['quantity']);
+
                 $grandTotal += $total;
+
             }
 
             $sale->update([

@@ -223,7 +223,7 @@
           ------------------------------- */
           async submitSale() {
               let body = {
-                  supplier: document.getElementById("customer").value,
+                  supplier: document.getElementById("supplier").value,
                   grand_total: this.cartTotal(),
                   payment_method: document.getElementById("payment-method").value,
                   items: []
@@ -243,13 +243,14 @@
 
               // In a real implementation, you would use:
 
-              let res = await fetch("/api/stocking", {
+              let res = await fetch("/api/inventory", {
                   method: "POST",
                   headers: {
                       "Content-Type": "application/json"
                   },
                   body: JSON.stringify(body)
               });
+              let data = await res.json();
 
               if (!res.ok) {
                   let text = await res.text();
@@ -258,12 +259,16 @@
                   return;
               }
 
-              let data = await res.json();
-
-
-              alert("Inventory completed!");
               this.closeCheckout();
               this.cancelCart();
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Inventory Completed!',
+                  text: 'Your stock has been saved successfully.',
+                  confirmButtonText: 'OK'
+              });
+
+              this.loadProducts();
           }
 
           /* -------------------------------

@@ -117,7 +117,7 @@
 
             <label class="block mb-4">
                 <span class="text-sm">Supplier Name</span>
-                <input id="customer"
+                <input id="supplier"
                     class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-green-500" />
             </label>
 
