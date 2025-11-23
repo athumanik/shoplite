@@ -13,7 +13,7 @@ class SalesController extends Controller
             return redirect(route('login'));
         }
 
-        return view('sales.index', [
+        return view('salez.index', [
 
         ]);
     }

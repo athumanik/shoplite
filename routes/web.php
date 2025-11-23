@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CashController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
@@ -40,12 +41,24 @@ Route::middleware([
 
 
 
+Route::get('shops', [ShopController::class, 'index'])->name(name: 'shops');
+Route::get('shop', [ShopController::class, 'main'])->name(name: 'shop');
+
 
 Route::get('stocks', [StockController::class, 'index'])->name(name: 'stocks');
 Route::get('stock-guest', [StockController::class, 'guest'])->name(name: 'stock.guest');
 
 Route::get('pos-guest', [PosController::class, 'guest'])->name(name: 'pos.guest');
-Route::get('pos', [PosController::class, 'index'])->name(name: 'pos');
+// Route::get('pos', [PosController::class, 'index'])->name(name: 'pos');
+
+Route::prefix('pos')->group(function () {
+    Route::get('/', [PosController::class, 'index'])->name('pos');      // GET all
+    Route::get('{id}', [PosController::class, 'show']);    // GET single
+    Route::post('/', [PosController::class, 'store']);     // CREATE
+    Route::put('{id}', [PosController::class, 'update']);  // UPDATE
+    Route::delete('{id}', [PosController::class, 'destroy']); // DELETE
+});
+
 
 
 Route::get('products', [ProductController::class, 'index'])->name('products.index');
@@ -70,25 +83,36 @@ Route::get('wholesales', [WholesaleController::class, 'main'])->name(name: 'whol
 
 
 // Sales
+
+
 Route::get('selling', [SalesController::class, 'sales'])->name('sales');
 
-Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
-Route::post('/sales', [SalesController::class, 'store']);
-Route::get('/sales/{id}', [SalesController::class, 'show']);
-Route::put('/sales/{id}', [SalesController::class, 'update']);
-Route::delete('/sales/{id}', [SalesController::class, 'destroy']);
-
-
-Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
-Route::post('/inventory', [InventoryController::class, 'store']);
-Route::get('/inventory/{id}', [InventoryController::class, 'show']);
-Route::put('/inventory/{id}', [InventoryController::class, 'update']);
-Route::delete('/inventory/{id}', [InventoryController::class, 'destroy']);
+Route::prefix('sales')->group(function () {
+    Route::get('/', [SalesController::class, 'index'])->name('sales.index');      // GET all
+    Route::get('{id}', [SalesController::class, 'show']);    // GET single
+    Route::post('/', [SalesController::class, 'store']);     // CREATE
+    Route::put('{id}', [SalesController::class, 'update']);  // UPDATE
+    Route::delete('{id}', [SalesController::class, 'destroy']); // DELETE
+});
 
 Route::get('inventories', [InventoryController::class, 'main'])->name(name: 'inventories');
 
+Route::prefix('inventory')->group(function () {
+    Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');      // GET all
+    Route::get('{id}', [InventoryController::class, 'show']);    // GET single
+    Route::post('/', [InventoryController::class, 'store']);     // CREATE
+    Route::put('{id}', [InventoryController::class, 'update']);  // UPDATE
+    Route::delete('{id}', [InventoryController::class, 'destroy']); // DELETE
+});
 
 
-Route::get('shops', [ShopController::class, 'index'])->name(name: 'shops');
-Route::get('shop', [ShopController::class, 'main'])->name(name: 'shop');
+Route::get('cashier', [CashController::class, 'index'])->name('cash');
+
+
+
+
+
+
+
+
 

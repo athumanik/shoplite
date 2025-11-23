@@ -34,14 +34,8 @@ class ShopController extends Controller
             "total_sales" => product::sum('price'),
             "this_month" => product::whereMonth('created_at', now()->month)->sum('price'),
             "avg_monthly" => product::selectRaw("AVG(price) as avg")->value('avg'),
-            // "top_customer" => product::selectRaw("custome, SUM(price) as total")
-            //     ->groupBy("customer")
-            //     ->orderByDesc("total")
-            //     ->first(),
         ];
-        return view(
-            'shop.index',
-            [
+        return view('shop.index',[
                 'stats' => $stats,
             ]
         );

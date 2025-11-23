@@ -34,6 +34,7 @@ class ProductController extends Controller
             'id',
             'name',
             'slug',
+            'stock',
             'price',
             'wholesale_price',
             'buying_price',

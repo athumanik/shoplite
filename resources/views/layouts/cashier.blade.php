@@ -5,26 +5,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('fav/fav.png') }}">
+
 
     <title>{{ config('app.name', 'SHOPLITE') }}</title>
 
-    @include('salez.style')
+    @include('cash.style')
+
 
 </head>
 
 <body class="antialiased">
     <!-- Main Layout -->
-      <div class="flex h-screen bg-gray-50">
+    <div class="flex h-screen bg-gray-50">
 
-        @include('salez.sidebar')
-
+        @include('cash.sidebar')
+        <div class="main-content flex-1 flex flex-col overflow-hidden transition-all duration-300">
 
             {{ $slot }}
-
+        </div>
     </div>
 
-    @include('salez.script')
+    @include('cash.script')
 </body>
 
 </html>
