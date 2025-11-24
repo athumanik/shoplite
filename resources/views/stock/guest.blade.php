@@ -185,21 +185,6 @@
             day: 'numeric'
         });
 
-        //     function productCard(p) {
-        //         return `
-    //     <div class="product-card bg-white rounded-xl shadow p-4 hover:shadow-md transition-shadow fade-in">
-    //     <div class="h-32 bg-green-50 rounded-lg mb-3 flex items-center justify-center">
-    //         <i class="fas fa-seedling text-4xl text-green-600"></i>
-    //     </div>
-    //     <h3 class="font-semibold text-sm mb-1 truncate">${p.name}</h3>
-    //     <p class="text-green-700 font-bold text-lg mb-3">${p.price.toLocaleString()} Tsh</p>
-    //     <button class="add-btn bg-green-600 text-white w-full py-2 rounded-lg hover:bg-green-700 transition-colors btn-hover"
-    //         data-id="${p.id}">
-    //         <i class="fas fa-cart-plus mr-1"></i> Add Stock
-    //     </button>
-    // </div>
-    // `;
-        //     }
 
         function formatPrice(price) {
             return Number(price).toLocaleString("en-US");

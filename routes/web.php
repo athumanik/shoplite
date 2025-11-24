@@ -43,6 +43,7 @@ Route::middleware([
 
 Route::get('shops', [ShopController::class, 'index'])->name(name: 'shops');
 Route::get('shop', [ShopController::class, 'main'])->name(name: 'shop');
+Route::get('shopping', [ShopController::class, 'shop'])->name(name: 'shopping');
 
 
 Route::get('stocks', [StockController::class, 'index'])->name(name: 'stocks');
@@ -96,6 +97,7 @@ Route::prefix('sales')->group(function () {
 });
 
 Route::get('inventories', [InventoryController::class, 'main'])->name(name: 'inventories');
+Route::get('/inv', [InventoryController::class, 'inv'])->name('inv');
 
 Route::prefix('inventory')->group(function () {
     Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');      // GET all

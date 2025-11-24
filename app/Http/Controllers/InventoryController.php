@@ -17,6 +17,16 @@ class InventoryController extends Controller
 
         ]);
     }
+    public function inv()
+    {
+        if (!Auth::check()) {
+            return redirect(route('login'));
+        }
+
+        return view('inv.index', [
+
+        ]);
+    }
     public function index()
     {
         if (!Auth::check()) {

@@ -10,16 +10,27 @@ use Illuminate\Support\Facades\DB;
 
 class WholeSaleController extends Controller
 {
-        /**
+    /**
      * Get all sales with items
      */
-    public function index()
+      public function index(Request $request)
     {
-        $sales = sales::with('items.product')->latest()->get();
+        $query = Sales::with(['items.product']);
 
-        return response()->json([
-            'status' => true,
-            'data' => $sales
-        ]);
+        // Optional: search by customer, invoice, etc.
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('customer', 'like', "%{$search}%")
+                    ->orWhere('grand_total', 'like', "%{$search}%")
+                    ->orWhere('customer_type', 'like', "%{$search}%");
+            });
+        }
+
+        // Order latest and paginate
+        $sales = $query->latest()->paginate(10);
+
+        return response()->json($sales);
     }
 }

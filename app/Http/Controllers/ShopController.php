@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class ShopController extends Controller
 {
 
-        public function main()
+    public function main()
     {
-            if (!Auth::check()) {
+        if (!Auth::check()) {
             return redirect(route('login'));
         }
 
@@ -20,6 +20,19 @@ class ShopController extends Controller
 
         ]);
     }
+
+    // whole sale
+    public function shop()
+    {
+        if (!Auth::check()) {
+            return redirect(route('login'));
+        }
+
+        return view('shopping.index', [
+
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -35,7 +48,9 @@ class ShopController extends Controller
             "this_month" => product::whereMonth('created_at', now()->month)->sum('price'),
             "avg_monthly" => product::selectRaw("AVG(price) as avg")->value('avg'),
         ];
-        return view('shop.index',[
+        return view(
+            'shop.index',
+            [
                 'stats' => $stats,
             ]
         );

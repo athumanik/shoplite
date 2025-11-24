@@ -16,13 +16,27 @@ use Illuminate\Support\Str;
 
 class InventoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $inventory = inventory::with('items.product')->latest()->get();
-        return response()->json($inventory);
-    }
+        $query = inventory::with(['items.product']);
 
-     public function store(Request $request, StockMovementService $stock)
+        // Optional: search by customer, invoice, etc.
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('supplier', 'like', "%{$search}%")
+                    ->orWhere('grand_total', 'like', "%{$search}%")
+                    ->orWhere('batch_no', 'like', "%{$search}%");
+            });
+        }
+
+        // Order latest and paginate
+        $sales = $query->latest()->paginate(10);
+
+        return response()->json($sales);
+    }
+    public function store(Request $request, StockMovementService $stock)
     {
         $validated = $request->validate([
             'supplier' => 'required|string',
@@ -92,7 +106,7 @@ class InventoryController extends Controller
                     +$item['quantity'],
                     'inventory',
                     'INV-' . $inventory->id,
-                    'Stock add via todays purchases at '.now()->format('H:i')
+                    'Stock add via todays purchases at ' . now()->format('H:i')
                 );
             }
 

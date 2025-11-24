@@ -73,20 +73,20 @@
 
 
 
-        {{-- <a href="{{ route('wholesale') }}"
+        <a href="{{ route('shopping') }}"
             class="flex items-center px-3 py-2 rounded-lg transition-all duration-200
-          {{ request()->routeIs('wholesale')
+          {{ request()->routeIs('shopping')
               ? 'bg-green-50 text-gray-700 border border-green-200'
               : 'text-gray-600 hover:bg-gray-100' }}">
 
             <i
                 class="fas fa-dolly w-5 h-5 mr-3
-            {{ request()->routeIs('wholesale') ? 'text-green-600' : '' }}"></i>
+            {{ request()->routeIs('shopping') ? 'text-green-600' : '' }}"></i>
 
-            <span class="sidebar-text {{ request()->routeIs('wholesale') ? 'font-medium' : '' }}">
+            <span class="sidebar-text {{ request()->routeIs('shopping') ? 'font-medium' : '' }}">
                 Wholesales
             </span>
-        </a> --}}
+        </a>
         {{-- <a href="{{ route('shop') }}"
             class="flex items-center px-3 py-2 rounded-lg transition-all duration-200
           {{ request()->routeIs('shop')
@@ -101,21 +101,23 @@
               Shopping
             </span>
         </a> --}}
-        {{-- <a href="{{ route('inventory.index') }}"
+
+         <a href="{{ route('inv') }}"
             class="flex items-center px-3 py-2 rounded-lg transition-all duration-200
-          {{ request()->routeIs('inventory.index')
+          {{ request()->routeIs('inv')
               ? 'bg-green-50 text-gray-700 border border-green-200'
               : 'text-gray-600 hover:bg-gray-100' }}">
 
             <i
                 class="fas fa-boxes-stacked  w-5 h-5 mr-3
-            {{ request()->routeIs('inventory.index') ? 'text-green-600' : '' }}"></i>
+            {{ request()->routeIs('inv') ? 'text-green-600' : '' }}"></i>
 
-            <span class="sidebar-text {{ request()->routeIs('inventory.index') ? 'font-medium' : '' }}">
+            <span class="sidebar-text {{ request()->routeIs('inv') ? 'font-medium' : '' }}">
                 Inventory
             </span>
         </a>
-        <a href="{{ route('expense') }}"
+
+    {{--    <a href="{{ route('expense') }}"
             class="flex items-center px-3 py-2 rounded-lg transition-all duration-200
           {{ request()->routeIs('expense')
               ? 'bg-green-50 text-gray-700 border border-green-200'
